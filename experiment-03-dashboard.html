@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--text:#ffffff}
+.light{--bg:#f4f4f4;--card:#ffffff;--text:#000000}
+body{margin:0;font-family:Arial;background:var(--bg);color:var(--text)}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px}
+button{padding:10px 15px;border:none;border-radius:6px}
+.dashboard{display:grid;grid-template-columns:250px repeat(3,1fr);gap:20px;padding:20px}
+.card{background:var(--card);padding:30px;border-radius:10px;text-align:center}
+@media(max-width:768px){.dashboard{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>Admin Dashboard</h1>
+<button onclick="toggle()">Light Mode</button>
+</header>
+<div class="dashboard">
+<div class="card">Navigation</div>
+<div class="card">Analytics</div>
+<div class="card">Users</div>
+<div class="card">Settings</div>
+</div>
+<script>
+const m=localStorage.getItem("mode")
+if(m==="light"){document.body.classList.add("light")}
+function toggle(){document.body.classList.toggle("light");localStorage.setItem("mode",document.body.classList.contains("light")?"light":"dark")}
+</script>
+</body>
+</html>

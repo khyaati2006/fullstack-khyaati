@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Banking Interface</title>
+<style>
+body{font-family:Arial;background:#f4f4f4;display:flex;justify-content:center;align-items:center;height:100vh}
+.container{background:white;padding:30px;width:350px;border-radius:8px;text-align:center}
+input{width:100%;padding:10px;margin:15px 0;font-size:16px}
+.buttons{display:flex;gap:15px}
+button{flex:1;padding:12px;font-size:16px;border:none;color:white;border-radius:5px}
+.deposit{background:#1e6cff}
+.withdraw{background:#ff3b3b}
+#msg{margin-top:15px;font-weight:bold;color:red}
+@media(max-width:400px){.buttons{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Balance: $<span id="bal">1000</span></h1>
+<input type="number" id="amt" placeholder="Amount">
+<div class="buttons">
+<button class="deposit" onclick="dep()">Deposit</button>
+<button class="withdraw" onclick="wit()">Withdraw</button>
+</div>
+<div id="msg"></div>
+</div>
+<script>
+let b=1000
+function dep(){let a=Number(amt.value);if(a<=0){msg.innerText="Invalid amount!";return}b+=a;upd("Transaction successful","green")}
+function wit(){let a=Number(amt.value);if(a<=0||a>b){msg.innerText="Invalid amount!";msg.style.color="red";return}b-=a;upd("Transaction successful","green")}
+function upd(t,c){bal.innerText=b;msg.innerText=t;msg.style.color=c;amt.value=""}
+</script>
+</body>
+</html>
