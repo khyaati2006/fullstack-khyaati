@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiment 08 - Library Management System</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    body { margin:0; font-family: Arial, Helvetica, sans-serif; background:#f3f4f6; padding:40px; }
+    h1 { text-align:center; }
+    .container { max-width:800px; margin:auto; }
+    .card { background:white; padding:20px; border-radius:12px; box-shadow:0 8px 20px rgba(0,0,0,0.08); margin-bottom:20px; }
+    input { padding:10px; margin:5px; border-radius:8px; border:1px solid #ccc; }
+    button { padding:10px 15px; border:none; border-radius:8px; cursor:pointer; }
+    .add-btn { background:#2563eb; color:white; }
+    .remove-btn { background:#dc2626; color:white; float:right; }
+    .book-title { font-size:20px; font-weight:bold; }
+    .search { width:100%; margin-bottom:15px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function LibraryApp() {
+      const [books, setBooks] = useState([
+        { id: 1, title: "The Great Gatsby", author: "S. Scott Fitzgerald" },
+        { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee" }
+      ]);
+      const [search, setSearch] = useState("");
+      const [title, setTitle] = useState("");
+      const [author, setAuthor] = useState("");
+
+      const addBook = () => {
+        if (title.trim() === "" || author.trim() === "") return;
+        const newBook = {
+          id: Date.now(),
+          title,
+          author
+        };
+        setBooks([...books, newBook]);
+        setTitle("");
+        setAuthor("");
+      };
+
+      const removeBook = (id) => {
+        setBooks(books.filter(book => book.id !== id));
+      };
+
+      const filteredBooks = books.filter(book =>
+        book.title.toLowerCase().includes(search.toLowerCase()) ||
+        book.author.toLowerCase().includes(search.toLowerCase())
+      );
+
+      return (
+        <div className="container">
+          <h1>Library Management System</h1>
+
+          <div className="card">
+            <input
+              className="search"
+              type="text"
+              placeholder="Search books..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <br />
+            <input
+              type="text"
+              placeholder="Book Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Author"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+            />
+            <button className="add-btn" onClick={addBook}>Add Book</button>
+          </div>
+
+          {filteredBooks.map(book => (
+            <div key={book.id} className="card">
+              <span className="book-title">{book.title}</span>
+              <button className="remove-btn" onClick={() => removeBook(book.id)}>Remove</button>
+              <p>by {book.author}</p>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<LibraryApp />);
+  </script>
+</body>
+</html>

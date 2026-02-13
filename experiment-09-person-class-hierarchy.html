@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiment 09 - Person Class Hierarchy</title>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <style>
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f3f4f6; padding: 40px; }
+    h1 { text-align: center; margin-bottom: 40px; }
+    .container { max-width: 800px; margin: auto; }
+    .card { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); margin-bottom: 25px; }
+    .name { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+    .age { font-size: 18px; margin-bottom: 10px; }
+    .description { font-style: italic; color: #555; margin-bottom: 10px; }
+    .extra { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    class Person {
+      constructor(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+      introduce() {
+        return `Hello, my name is ${this.name}.`;
+      }
+    }
+
+    class Student extends Person {
+      constructor(name, age, major) {
+        super(name, age);
+        this.major = major;
+      }
+      introduce() {
+        return `Hello, my name is ${this.name} and I'm studying ${this.major}.`;
+      }
+    }
+
+    class Teacher extends Person {
+      constructor(name, age, subject) {
+        super(name, age);
+        this.subject = subject;
+      }
+      introduce() {
+        return `Hello, my name is ${this.name} and I teach ${this.subject}.`;
+      }
+    }
+
+    function PersonCard({ person, role }) {
+      return (
+        <div className="card">
+          <div className="name">{person.name} ({role})</div>
+          <div className="age">Age: {person.age}</div>
+          <div className="description">{person.introduce()}</div>
+          {person.major && <div className="extra">Major: {person.major}</div>}
+          {person.subject && <div className="extra">Teaching: {person.subject}</div>}
+        </div>
+      );
+    }
+
+    function App() {
+      const people = [
+        { instance: new Person("Alex Johnson", 30), role: "Person" },
+        { instance: new Student("Emma Watson", 20, "Computer Science"), role: "Student" },
+        { instance: new Teacher("Dr. James Wilson", 45, "Mathematics"), role: "Teacher" }
+      ];
+
+      return (
+        <div className="container">
+          <h1>Person Class Hierarchy</h1>
+          {people.map((p, index) => (
+            <PersonCard key={index} person={p.instance} role={p.role} />
+          ))}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  </script>
+</body>
+</html>
